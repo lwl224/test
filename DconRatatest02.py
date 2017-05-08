@@ -166,9 +166,6 @@ def saveexcel():
     writer.save()
 
 
-
-
-
 def saveexcel1():
     cst_readall = csv.reader(open('data.csv'))
     writer = ExcelWriter('result_all_3.xlsx')
