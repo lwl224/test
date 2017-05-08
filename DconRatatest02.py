@@ -85,8 +85,8 @@ def loop(data1):
     OnNetRru_new = merge(column2_new, TEST_Statistical_rru, how='left', on='cellid')
     OnNetRru_new = OnNetRru_new.fillna(0)
     OnNetRru_new['rrunumber1'] = OnNetRru_new['rrunumber1'] + 1
-    column3 = dfl.ix[:, [3, 2, 11]]
-    column3.columns = ['cellid', 'time', 'flow']
+    column3 = dfl.ix[:, [3, 2, 11, 8]]
+    column3.columns = ['cellid', 'time', 'flow', 'district']
     column3['rrunumber'] = 1
     column3['cellid'] = column3['cellid'].str.replace('\s', '', case=False)
     TEST_Statistical_rru2 = merge(column3, TEST_Statistical_rru, how='left', on='cellid')
@@ -119,6 +119,8 @@ def loop(data1):
         [Statistical_groupby_zero['city'], Statistical_groupby_zero['cellid']]).sum()
     # Statistical_groupby2 = Statistical_groupby['cellid'].groupby(Statistical_groupby['city']).size()
     Statistical_groupby2 = Statistical_groupby['rrunumber'].groupby(Statistical_groupby['city']).sum()
+    Statistical_groupby3 = Statistical_groupby['rrunumber'].groupby(Statistical_groupby['district']).sum()
+    Statistical_groupby3 = DataFrame(Statistical_groupby3)
     Statistical_groupby_new_zero_1 = Statistical_groupby_new_zero['rrunumber'].groupby(
         Statistical_groupby_new_zero['cellid']).sum()
     Statistical_groupby2_new = Statistical_groupby_new['rrunumber'].groupby(Statistical_groupby_new['city']).sum()
@@ -153,6 +155,7 @@ def loop(data1):
         Statistical_groupby_zero.to_excel(writer, sheet_name=u'交维态没有流量RRU清单')
         Statistical_groupby_zero_1.to_excel(writer, sheet_name=u'交维态没有流量RRU清单统计')
         Statistical_groupby_new_zero.to_excel(writer, sheet_name=u'新增态没有流量RRU清单')
+        Statistical_groupby3.to_excel(writer, sheet_name=u'交维态各区县在网率统计表')
     end = clock()
     print str((end - start) / 60) + 'mins'
 
