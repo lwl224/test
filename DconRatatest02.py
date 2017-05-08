@@ -160,9 +160,9 @@ def loop(data1):
 def saveexcel():
     cst_readall = csv.reader(open('data.csv'))
     writer = ExcelWriter('result_all.xlsx')
-    for data1 in cst_readall:
-        dfl = read_excel(ur'%s/result_alltest%s.xlsx' % (data1[0], data1[0]))
-        dfl.to_excel(writer, u'%s交维态在网率统计表' % data1[0])
+    for selctdata in cst_readall:
+        dfl = read_excel(ur'%s/result_alltest%s.xlsx' % (selctdata[0], selctdata[0]))
+        dfl.to_excel(writer, u'%s交维态在网率统计表' % selctdata[0])
     writer.save()
 
 
@@ -171,8 +171,8 @@ def saveexcel1():
     writer = ExcelWriter('result_all_3.xlsx')
     column = DataFrame(columns=['cellid', 'city', 'state', 'rrunumber1', 'cellid1', 'time', 'flow', 'rrunumber'])
     start = clock()
-    for data1 in cst_readall:
-        dfl = read_excel(ur'%s/result_alltest%s.xlsx' % (data1[0], data1[0]), sheetname=5)
+    for selctdata1 in cst_readall:
+        dfl = read_excel(ur'%s/result_alltest%s.xlsx' % (selctdata1[0], selctdata1[0]), sheetname=5)
         column = column.append(dfl, ignore_index=True)
         end = clock()
         print str((end - start) / 60) + 'mins'
