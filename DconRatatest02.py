@@ -71,8 +71,12 @@ def loop(data1):
         column2 = column2.append(df_not_null_5, ignore_index=True)
     if df_not_null_6.empty is False:
         column2 = column2.append(df_not_null_6, ignore_index=True)
+    if df_null.empty is False:
+        column2 = column2.append(df_null, ignore_index=True)
     column2['cellid'] = column2['cellid'].str.replace('\s', '', case=False)
-    column2_new = df_null.append(df_not_null_2, ignore_index=True)
+    # column2_new = df_null.append(df_not_null_2, ignore_index=True)
+    column2_new = df_not_null_2
+    column2_new['cellid'] = column2_new['cellid'].str.replace('\s', '', case=False)
     TEST_Statistical_rru = column1['city'].groupby(column1['cellid']).size()
     TEST_Statistical_rru = TEST_Statistical_rru - 1
     TEST_Statistical_rru = TEST_Statistical_rru.reset_index()
@@ -104,9 +108,13 @@ def loop(data1):
     WorkCell = OnNetCell[OnNetCell['flow'] > 0]
     WorkCell_new = OnNetCell_new[OnNetCell_new['flow'] > 0]
     Statistical_rru = OnNetRru['rrunumber1'].groupby(OnNetRru['city']).sum()
+    Statistical_rru3 = OnNetRru['rrunumber1'].groupby(OnNetRru['district']).sum()
+
     Statistical_rru_new = OnNetRru_new['rrunumber1'].groupby(OnNetRru_new['city']).sum()
     Statistical_rru = DataFrame(Statistical_rru)
+    Statistical_rru3 = DataFrame(Statistical_rru3)
     Statistical_rru.columns = [u'交维态RRU总数']
+    Statistical_rru3.columns = [u'交维态各区县RRU总数']
     Statistical_rru_new = DataFrame(Statistical_rru_new)
     Statistical_rru_new.columns = [u'新增态RRU总数']
     Statistical_groupby = merge(OnNetRru, OnNetCell, on='cellid')
@@ -137,6 +145,7 @@ def loop(data1):
     Statistical_groupby2_new.columns = [u'新增态在网RRU数']
     num = int(len(set(column3['time'])))
     Statistical_groupby2[u'交维态RRU总数'] = Statistical_rru
+    Statistical_groupby3[u'交维态各区县RRU总数'] = Statistical_rru3
     Statistical_groupby2[u'交维态在网率'] = Statistical_groupby2[u'交维态在网RRU数'] / (Statistical_rru[u'交维态RRU总数'] * num)
     Statistical_groupby2[u'交维态在网RRU数'] = Statistical_groupby2[u'交维态在网RRU数'] / num
     Statistical_groupby2[u'新增态在网RRU数'] = Statistical_groupby2_new
@@ -197,5 +206,5 @@ csv_reader = csv.reader(open('data.csv'))
 for data1 in csv_reader:
     if os.path.exists('%s/result_alltest%s.xlsx' % (data1[0], data1[0])) is False:
         loop(str(data1[0]))
-saveexcel()
+# saveexcel()
 # kkl()

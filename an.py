@@ -58,10 +58,10 @@ ss3 = ss3[:-14]
 sql1 = 'SELECT *, timestampdiff( DAY,alarmCreateTime,( CASE WHEN RecoveryTime is NULL  THEN now()  ELSE  RecoveryTime end )) AS diff_time FROM WGZX_view_fault_alarm WHERE neName in' + ss1 + 'and alarmCreateTime BETWEEN \'2017-03-10 00:00:00\' AND \'2017-04-22 00:00:00\' HAVING diff_time > 1  ;'
 data1 = makedata(sql1)
 result1 = data1.ix[:, ['neName', 'alarmTitle', 'alarmCreateTime','RecoveryTime']]
-sql2 = 'SELECT *, timestampdiff( DAY,' + u'出现时间' + ',( CASE WHEN ' + u'回单时间' + ' is NULL  THEN now()  ELSE  ' + u'回单时间' + ' end )) AS diff_time FROM WGZX_view_fault_order_info_report WHERE (' + u'故障描述' + ss2 + ') and ' + u'出现时间' + ' BETWEEN \'2017-04-01 00:00:00\' AND \'2017-04-22 12:00:00\'   ;'
+sql2 = 'SELECT *, timestampdiff( DAY,' + u'出现时间' + ',( CASE WHEN ' + u'回单时间' + ' is NULL  THEN now()  ELSE  ' + u'回单时间' + ' end )) AS diff_time FROM WGZX_view_fault_order_info_report WHERE (' + u'故障描述' + ss2 + ') and ' + u'工单状态 =' + '\'已处理\' '  ; #' u'出现时间' + ' BETWEEN \'2017-04-01 00:00:00\' AND \'2017-04-30 23:59:00\'
 data2 = makedata(sql2)
 result2 = data2.ix[:, ['基站名称', '故障类型', '故障描述', '出现时间', '恢复时间']]
-sql3 = 'SELECT *, timestampdiff( DAY,' + u'出现时间' + ',( CASE WHEN ' + u'回单时间' + ' is NULL  THEN now()  ELSE  ' + u'回单时间' + ' end )) AS diff_time FROM WGZX_view_fault_order_info_report WHERE (' + u'故障描述' + ss3 + ') and ' + u'出现时间' + ' BETWEEN \'2017-04-01 00:00:00\' AND \'2017-04-22 12:00:00\'   ;'
+sql3 = 'SELECT *, timestampdiff( DAY,' + u'出现时间' + ',( CASE WHEN ' + u'回单时间' + ' is NULL  THEN now()  ELSE  ' + u'回单时间' + ' end )) AS diff_time FROM WGZX_view_fault_order_info_report WHERE (' + u'故障描述' + ss3 + ') and ' + u'出现时间' + ' BETWEEN \'2017-04-01 00:00:00\' AND \'2017-04-30 23:59:00\'   ;'
 data3 = makedata(sql3)
 result3 = data3.ix[:, ['基站名称', '故障类型', '故障描述', '出现时间', '恢复时间']]
 result2.append(result3, ignore_index=True)
