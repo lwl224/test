@@ -108,13 +108,13 @@ def loop(data1):
     WorkCell = OnNetCell[OnNetCell['flow'] > 0]
     WorkCell_new = OnNetCell_new[OnNetCell_new['flow'] > 0]
     Statistical_rru = OnNetRru['rrunumber1'].groupby(OnNetRru['city']).sum()
-    Statistical_rru3 = OnNetRru['rrunumber1'].groupby(OnNetRru['district']).sum()
+    # Statistical_rru3 = OnNetRru['rrunumber1'].groupby(OnNetRru['district']).sum()
 
     Statistical_rru_new = OnNetRru_new['rrunumber1'].groupby(OnNetRru_new['city']).sum()
     Statistical_rru = DataFrame(Statistical_rru)
-    Statistical_rru3 = DataFrame(Statistical_rru3)
+    # Statistical_rru3 = DataFrame(Statistical_rru3)
     Statistical_rru.columns = [u'交维态RRU总数']
-    Statistical_rru3.columns = [u'交维态各区县RRU总数']
+    # Statistical_rru3.columns = [u'交维态各区县RRU总数']
     Statistical_rru_new = DataFrame(Statistical_rru_new)
     Statistical_rru_new.columns = [u'新增态RRU总数']
     Statistical_groupby = merge(OnNetRru, OnNetCell, on='cellid')
@@ -145,7 +145,7 @@ def loop(data1):
     Statistical_groupby2_new.columns = [u'新增态在网RRU数']
     num = int(len(set(column3['time'])))
     Statistical_groupby2[u'交维态RRU总数'] = Statistical_rru
-    Statistical_groupby3[u'交维态各区县RRU总数'] = Statistical_rru3
+    # Statistical_groupby3[u'交维态各区县RRU总数'] = Statistical_rru3
     Statistical_groupby2[u'交维态在网率'] = Statistical_groupby2[u'交维态在网RRU数'] / (Statistical_rru[u'交维态RRU总数'] * num)
     Statistical_groupby2[u'交维态在网RRU数'] = Statistical_groupby2[u'交维态在网RRU数'] / num
     Statistical_groupby2[u'新增态在网RRU数'] = Statistical_groupby2_new
@@ -180,7 +180,7 @@ def saveexcel():
 
 def saveexcel1():
     cst_readall = csv.reader(open('data.csv'))
-    writer = ExcelWriter('result_all_3.xlsx')
+    writer = ExcelWriter('result_all_1.xlsx')
     column = DataFrame(columns=['cellid', 'city', 'state', 'rrunumber1', 'cellid1', 'time', 'flow', 'rrunumber'])
     start = clock()
     for selctdata1 in cst_readall:
@@ -193,18 +193,18 @@ def saveexcel1():
     writer.save()
 
 
-# def kkl():
-#     dfl = read_excel('result_all_1.xlsx', skiprows=[0], header=None)
-#     dfl.columns = ['k','cellid', 'city', 'state', 'rrunumber1', 'cellid1', 'time', 'flow', 'rrunumber']
-#     def1 = dfl['city'].groupby(dfl['cellid']).size()
-#     def1 = def1.reset_index()
-#     def2 = merge(dfl, def1, how='left', on='cellid')
-#     with ExcelWriter('result_all_2.xlsx' ) as writer:
-#         def2.to_excel(writer, sheet_name=u'交维态在网RRU总数清单')
+def kkl():
+    dfl = read_excel('result_all_1.xlsx', skiprows=[0], header=None)
+    dfl.columns = ['k','cellid', 'city', 'state', 'rrunumber1', 'cellid1', 'time', 'flow', 'rrunumber']
+    def1 = dfl['city'].groupby(dfl['cellid']).size()
+    def1 = def1.reset_index()
+    def2 = merge(dfl, def1, how='left', on='cellid')
+    with ExcelWriter('result_all_2.xlsx' ) as writer:
+        def2.to_excel(writer, sheet_name=u'交维态在网RRU总数清单')
 
 csv_reader = csv.reader(open('data.csv'))
 for data1 in csv_reader:
     if os.path.exists('%s/result_alltest%s.xlsx' % (data1[0], data1[0])) is False:
         loop(str(data1[0]))
-# saveexcel()
+saveexcel1()
 # kkl()
