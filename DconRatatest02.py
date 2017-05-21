@@ -129,7 +129,7 @@ def loop(data1):
         [Statistical_groupby_zero['city'], Statistical_groupby_zero['cellid']]).sum()
     # Statistical_groupby2 = Statistical_groupby['cellid'].groupby(Statistical_groupby['city']).size()
     Statistical_groupby2 = Statistical_groupby['rrunumber'].groupby(Statistical_groupby['city']).sum()
-    Statistical_groupby3 = Statistical_groupby['rrunumber'].groupby(Statistical_groupby['district']).sum()
+    Statistical_groupby3 = Statistical_groupby['rrunumber'].groupby(Statistical_groupby['district_x']).sum()
     Statistical_groupby3 = DataFrame(Statistical_groupby3)
     Statistical_groupby_new_zero_1 = Statistical_groupby_new_zero['rrunumber'].groupby(
         Statistical_groupby_new_zero['cellid']).sum()
